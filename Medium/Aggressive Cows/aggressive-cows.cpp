@@ -8,45 +8,64 @@ using namespace std;
 // User function Template for C++
 
 class Solution {
-    
-    bool check(vector<int>&stall,int &cows,int &key){
-        int cnt(1),coordi=stall[0];
-        for(int i=1;i<stall.size();i++){
-            if(stall[i]-coordi>=key){
-                cnt++;
-                coordi=stall[i];
-            }
-            if(cnt==cows)return 1;
-        }
-        return 0;
-    }
-    
 public:
 
-    int solve(int n, int k, vector<int> &stalls) {
-    
-        // Write your code here
-        sort(stalls.begin(),stalls.end());
+    bool is_possible(vector<int> &stall , int mid , int k)
+    {
+        int cow_count = 1;
+        int last_position = stall[0];
         
-        int low=1,high=stalls[n-1]-stalls[0],res(1);
-        
-        while(low<=high){
-            int mid = (high-low)>>1;
-            mid+=low;
-            
-            if(check(stalls,k,mid)){
-                res=max(res,mid);
-                low=mid+1;
-            }else
-                high=mid-1;
+        for(int i = 0 ; i < stall.size() ; i++)
+        {
+            if(stall[i] - last_position >= mid)
+            {
+                cow_count++;
+                if(cow_count == k)
+                    return true;
+                
+                last_position = stall[i];
+            }
         }
         
-        return res;
+        return false;
+    }
+    int solve(int n, int k, vector<int> &stall) 
+    {
+        // Write your code here
+        sort(stall.begin() , stall.end());
+        int maxi = -1;
+        for(int i = 0 ; i < n; i++)
+        {
+            maxi = max(maxi  , stall[i]);
+        }
+        
+        int s = 0;
+        int e = maxi;
+        int ans = -1;
+        
+        int mid = s + (e-s)/2;
+        while(s <= e)
+        {
+            //right part
+            if(is_possible(stall , mid , k))
+            {
+                ans = mid;
+                s = mid+1;
+            }
+            
+            //left part
+            else
+            {
+                e = mid-1;
+            }
+            
+            mid = s + (e-s)/2;
+        }
+        
+        return ans;
         
     }
 };
-
-
 
 //{ Driver Code Starts.
 
