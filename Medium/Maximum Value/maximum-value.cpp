@@ -25,32 +25,25 @@ struct Node
 
 class Solution {
   public:
-    vector<int>v;
-    
-    void find_ans(Node *root , int level)
-    {
-        if(root == NULL)
-            return;
-        
-        if(level < v.size())
-        {
-            if(root->data > v[level])
-                v[level] = root->data;
+     vector<int>v;
+    void levelTrav(Node* root){
+        queue<Node*>q;        q.push(root);
+        while(!q.empty()){
+            int n = q.size(), maxVal = 0;
+            while(n--){
+                Node *temp = q.front();
+                maxVal = max(maxVal, temp->data);
+                if(temp->left)  q.push(temp->left);
+                if(temp->right)  q.push(temp->right);
+                q.pop();
+            }
+            v.push_back(maxVal);
         }
-        
-        else
-        {
-            v.push_back(root->data);
-        }
-        
-        find_ans(root->left , level+1);
-        find_ans(root->right , level+1);
-
     }
-    vector<int> maximumValue(Node* node) 
-    {
+  
+    vector<int> maximumValue(Node* node) {
         //code here
-        find_ans(node , 0);
+        levelTrav(node);
         return v;
     }
 };
