@@ -6,7 +6,11 @@ using namespace std;
 
 class Solution 
 {
-  private: 
+    /*
+    
+    Using DFS 
+    
+    private: 
     bool dfs(int node , int parent , int vis[], vector<int> adj[]) 
     {
         vis[node] = 1; 
@@ -43,6 +47,59 @@ class Solution
            }
        }
        return false; 
+    }
+    */
+    \
+    public:
+    bool is_cycle(int start_node ,vector<int> adj[] , unordered_map<int,bool> &visited)
+    {
+        unordered_map<int , int>parent;
+        parent[start_node] = -1;
+        visited[start_node] = 1;
+        queue<int>q;
+        q.push(start_node);
+        
+        while(!q.empty())
+        {
+            int front = q.front();
+            q.pop();
+            
+            for(auto i : adj[front])
+            {
+                if(visited[i] == 1 && i != parent[front])
+                {
+                    return true;    
+                }
+                
+                else if(!visited[i])
+                {
+                    q.push(i);
+                    visited[i] = 1;
+                    parent[i] = front;
+                }
+                
+            }
+        }
+        
+        return false;
+    }
+    
+    bool isCycle(int V, vector<int> adj[])
+    {
+        unordered_map<int ,bool>visited;
+
+        for(int i = 0 ; i < V ; i++)
+        {
+            if(!visited[i])
+            {
+                bool ans = is_cycle( i , adj , visited);
+                
+                if(ans == 1)
+                    return true;
+            }
+        }
+        
+        return false;
     }
 };
 
