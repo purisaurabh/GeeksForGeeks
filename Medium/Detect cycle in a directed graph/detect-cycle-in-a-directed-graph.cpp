@@ -3,47 +3,51 @@
 using namespace std;
 
 // } Driver Code Ends
-class Solution {
-  public:
-    bool DFS_Rec(vector<int> adj[], int s, vector<bool>& visit, vector<bool>& st){
-        
-        visit[s] = true;
-        st[s] = true;
-        
-        for(auto u : adj[s]){
+
+class Solution 
+{
+    public:
+        bool dfs(vector<int> adj[], int currNode, vector<bool> &visited , vector<bool> &dfs_visited)
+        {
+            visited[currNode] = true;
+            dfs_visited[currNode] = true;
             
-            if(visit[u] == false){
-                if(DFS_Rec(adj, u, visit, st))
+            for(int &v : adj[currNode])
+            {
+                if(visited[v] && dfs_visited[v])
+                {
                     return true;
+                }
+                
+                else if(!visited[v])
+                {
+                    if(dfs(adj, v, visited, dfs_visited)) 
+                        return true;   
+                }
             }
-            else if(st[u] == true)
-                return true;
+            
+            dfs_visited[currNode] = false;
+            return false;
         }
-        
-        st[s] = false;
-        return false;
-    }
-  
-    bool DFS_Main(vector<int> adj[],int V)
-    {
-        vector<bool> visit(V, false), st(V, false);
-        
-        for(int i=0; i<V; i++){
-            if(visit[i] == false){
-                if(DFS_Rec(adj, i, visit, st))
-                    return true;
+    
+        bool isCyclic(int V, vector<int> adj[]) 
+        {
+            // code here
+            vector<bool> visited(V, false), dfs_visited(V, false);
+            
+            for(int i=0; i<V; i++)
+            {
+                if(!visited[i])
+                {
+                    if(dfs(adj, i, visited, dfs_visited)) 
+                        return true;
+                }
             }
+            
+            return false;
         }
-        
-        return false;
-    }
-  
-    // Function to detect cycle in a directed graph.
-    bool isCyclic(int V, vector<int> adj[]) 
-    {
-        return DFS_Main(adj, V);
-    }
 };
+
 
 //{ Driver Code Starts.
 
