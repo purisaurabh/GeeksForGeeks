@@ -7,12 +7,64 @@ using namespace std;
 class Solution 
 {
     public:
-        bool dfs(vector<int> adj[], int currNode, vector<bool> &visited , vector<bool> &dfs_visited)
+    
+        // using the topological sort algorithm logic
+        // in the topological sort algotrithm is valid for the directed acyclic graph 
+        // which mean of cycle is not present then topologcal sort not gives the valid ans
+        
+        bool isCyclic(int V, vector<int> adj[]) 
         {
-            visited[currNode] = true;
-            dfs_visited[currNode] = true;
+            vector<int>indegree(V);
+        
+            for(int i = 0; i < V ; i++)
+            {
+                for(auto &x : adj[i])
+                {
+                    indegree[x]++;
+                }
+            }
+        
+            queue<int>q;
             
-            for(int &v : adj[currNode])
+            for(int i = 0 ; i < V ; i++)
+            {
+                if(indegree[i] == 0)
+                    q.push(i);
+            }
+        
+            int count = 0;
+        
+            while(!q.empty())
+            {
+                int front = q.front();
+                q.pop();
+        
+                count++;
+        
+                for(auto i : adj[front])
+                {
+                    indegree[i]--;
+                    if(indegree[i] == 0)
+                        q.push(i);
+                }
+            }
+        
+            if(count == V)
+                return false;
+            
+            return true;
+            
+        }
+        
+        
+        
+        /*
+        bool dfs(vector<int> adj[], int node, vector<bool> &visited , vector<bool> &dfs_visited)
+        {
+            visited[node] = true;
+            dfs_visited[node] = true;
+            
+            for(int &v : adj[node])
             {
                 if(visited[v] && dfs_visited[v])
                 {
@@ -26,7 +78,7 @@ class Solution
                 }
             }
             
-            dfs_visited[currNode] = false;
+            dfs_visited[node] = false;
             return false;
         }
     
@@ -46,6 +98,7 @@ class Solution
             
             return false;
         }
+        */
 };
 
 
