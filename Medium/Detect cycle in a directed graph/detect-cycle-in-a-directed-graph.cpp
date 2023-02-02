@@ -8,6 +8,49 @@ class Solution
 {
     public:
     
+        bool detectCycle(int node, int vis[], vector<int>adj[], int pathVis[]) 
+        {
+            vis[node] = 1;
+            pathVis[node] = 1;
+            
+            for(auto i: adj[node]) 
+            {
+                if(!vis[i]) 
+                {
+                    if(detectCycle(i,vis,adj,pathVis) == true)
+                        return true;
+                }
+                
+                else if(pathVis[i] == 1)
+                    return true;
+            }
+            
+            pathVis[node] = 0;
+            return false;
+        }
+         
+        bool isCyclic(int V, vector<int> adj[]) 
+        {
+            int vis[V] = {0};
+            int pathVis[V] = {0};
+            
+            for(int i = 0 ; i < V ; i++) 
+            {
+                if(!vis[i]) 
+                {
+                    if(detectCycle(i , vis , adj , pathVis))
+                        return true;
+                }
+            }
+            return false;
+        }
+        
+        
+        
+        
+        
+        
+        /*
         // using the topological sort algorithm logic
         // in the topological sort algotrithm is valid for the directed acyclic graph 
         // which mean of cycle is not present then topologcal sort not gives the valid ans
@@ -55,6 +98,20 @@ class Solution
             return true;
             
         }
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
