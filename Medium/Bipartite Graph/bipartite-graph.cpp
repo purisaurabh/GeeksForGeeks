@@ -4,8 +4,50 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-public:
+
+private:
+    bool dfs(int node , int colour , int color[] , vector<int>adj[])
+    {
+        color[node] = colour;
+        for(auto i : adj[node])
+        {
+            if(color[i] == -1)
+            {
+                if(dfs(i , !colour , color , adj) == false)
+                    return false;
+            }
+            
+            else if(color[i] == color[node])
+                return false;
+        }
+        
+        return true;
+    }
     
+public:
+    bool isBipartite(int V, vector<int>adj[])
+    {
+        int color[V];
+        for(int i = 0 ; i < V; i++)
+        {
+            color[i] = -1;
+        }
+        
+        int colour = 0;
+        for(int i = 0 ; i < V; i++)
+        {
+            if(color[i] == -1)
+            {
+                if(dfs(i , colour , color , adj) == false)
+                    return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    
+    /*
     bool check_bipartite(int start_node , int V , vector<int>adj[] , int color[])
     {
         queue<int>q;
@@ -61,6 +103,7 @@ public:
 	    
 	    return true;
 	}
+	*/
 
 };
 
