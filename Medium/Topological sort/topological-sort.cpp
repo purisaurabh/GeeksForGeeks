@@ -6,6 +6,49 @@ using namespace std;
 class Solution
 {
 	public:
+	// by striver
+	
+	void dfs(int node , vector<int> adj[] , int visited[] , stack<int> &s)
+	{
+	    visited[node] = 1;
+	    for(auto i : adj[node])
+	    {
+	        if(!visited[i])
+	        {
+	            dfs(i , adj , visited , s);
+	        }
+	    }
+	    
+	    s.push(node);
+	}
+	
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    stack<int>s;
+	    vector<int>v;
+	    int visited[V] = {0};
+	    
+	    for(int i = 0 ; i < V ; i++)
+	    {
+	        if(!visited[i])
+	        {
+	            dfs(i , adj , visited , s);
+	        }
+	    }
+	    
+	    while(!s.empty())
+	    {
+	        v.push_back(s.top());
+	        s.pop();
+	    }
+	    
+	    return v;
+	}
+	
+	
+	/*
+	
+	// by babbar
 	
 	void dfs(int node , stack<int>&s , vector<bool>&visited , vector<int> adj[])
 	{
@@ -46,6 +89,8 @@ class Solution
 	    
 	    return v;
 	}
+	
+	*/
 };
 
 //{ Driver Code Starts.
