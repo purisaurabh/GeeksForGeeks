@@ -6,8 +6,54 @@ using namespace std;
 class Solution
 {
 	public:
-	//Function to find the shortest distance of all the vertices
-    //from the source vertex S.
+        
+    // using set
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
+    {
+        set<pair<int,int>>st;
+        vector<int>dist(V , 1e9);
+        
+        // like dist, node
+        st.insert({0 , S});
+        dist[S] = 0;
+        
+        while(!st.empty())
+        {
+            // in this st.begin() gives the address and * gives the value at that address
+            auto it = *(st.begin());
+            
+            int node = it.second;
+            int distance = it.first;
+            
+            st.erase(it);
+            
+            for(auto it : adj[node])
+            {
+                int adj_node = it[0];
+                int edge = it[1];
+                
+                if(dist[adj_node] > dist[node] + edge)
+                {
+                    // check if the given adj node already exists or not
+                    if(dist[adj_node] != 1e9)
+                    {
+                        st.erase({dist[node] , adj_node});
+                    }
+                    
+                    dist[adj_node] = dist[node] + edge;
+                    st.insert({dist[adj_node] , adj_node});
+                } 
+            }
+        }
+        
+        return dist;
+    }
+    
+    
+    /*
+    // using priority queue	
+    // 	time complexity will be the  TC(E logV)
+    
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         // Code here
@@ -42,6 +88,7 @@ class Solution
         
         return dist;
     }
+    */
     
 };
 
