@@ -11,36 +11,38 @@ class Solution
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         // Code here
-        
-        // create the distance array and mark all as max_value
-        vector<int>dist(V , INT_MAX);
-        
-        queue<int>q;
-        q.push(S);
+        priority_queue<pair<int,int> , vector<pair<int,int> > ,greater<pair<int,int>>> pq;
+        vector<int>dist(V);
+        for(int i = 0 ; i < V ; i++)
+        {
+            dist[i] = 1e9;
+        }
         
         dist[S] = 0;
         
-        while(!q.empty())
+        pq.push({0 , S});
+        while(!pq.empty())
         {
-            int node = q.front();
-            q.pop();
+            int distance = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
             
             for(auto it : adj[node])
             {
-                int node_value = it[0];
-                int distance = it[1];
+                int edge_weight = it[1];
+                int adj_node = it[0];
                 
-                if(dist[node_value] > dist[node] + distance)
+                if(dist[adj_node] > edge_weight + dist[node])
                 {
-                    dist[node_value] = dist[node] + distance;
-                    q.push(node_value);
+                    dist[adj_node] = edge_weight + dist[node];
+                    pq.push({dist[adj_node] , adj_node});
                 }
             }
         }
         
         return dist;
-        
     }
+    
 };
 
 
