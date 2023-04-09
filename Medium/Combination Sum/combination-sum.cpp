@@ -30,7 +30,7 @@ class Solution {
             find(nums , target-nums[index] , ans , output , index);
             
             // this is when the not getting the answer from this way or there are other many way to find the answer
-            output.pop_back();
+            output.pop_back();https://media.geeksforgeeks.org/img-practice/wheelfab-1680611378.svg
         }
         
         
